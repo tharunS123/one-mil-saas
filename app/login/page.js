@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
@@ -13,6 +13,23 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        // Check for error in URL params
+        const params = new URLSearchParams(window.location.search);
+        const errorParam = params.get('error');
+        if (errorParam) {
+            // Convert error codes to friendly messages
+            const messages = {
+                'auth_failed': 'Authentication failed. Please try again.',
+                'access_denied': 'Access denied. Please try again.',
+            };
+            setError(messages[errorParam] || decodeURIComponent(errorParam));
+
+            // Clear URL param without refresh
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
