@@ -1,0 +1,29 @@
+Colors
+Primary:
+#19E76E
+Accent:
+#000000
+Background:
+#FFFFFF
+Text Primary:
+#000000
+Link:
+#8999AC
+Fonts
+Chivo Mono(monospace)
+NeueAlteGrotesk(unknown)
+Typography
+primary: Chivo Mono
+heading: Chivo Mono
+h1: 88px
+h2: 64px
+body: 24px
+Spacing
+Base Unit:
+4
+Border Radius:
+1px
+Personality
+Tone: modern
+Energy: medium
+Audience: developers and tech companies
