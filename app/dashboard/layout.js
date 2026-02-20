@@ -7,7 +7,7 @@ import Link from 'next/link';
 import {
     LayoutDashboard, Users, FolderKanban, FileText, BarChart3,
     Settings, LogOut, ChevronLeft,
-    ChevronRight, Bell, Search
+    ChevronRight, Bell, Search, Menu, X
 } from 'lucide-react';
 
 const AuthContext = createContext(null);
@@ -35,6 +35,7 @@ export default function DashboardLayout({ children }) {
     const router = useRouter();
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -93,8 +94,17 @@ export default function DashboardLayout({ children }) {
     return (
         <AuthContext.Provider value={{ user, profile }}>
             <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-secondary)' }}>
+                {/* ─── Sidebar Overlay (mobile) ─── */}
+                {sidebarOpen && (
+                    <div
+                        className="sidebar-overlay"
+                        style={{ display: 'block' }}
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
+
                 {/* ─── Sidebar ─── */}
-                <aside style={{
+                <aside className={`dashboard-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`} style={{
                     width: sidebarWidth,
                     transition: 'width 0.25s ease',
                     borderRight: '1px solid var(--border-primary)',
@@ -186,7 +196,7 @@ export default function DashboardLayout({ children }) {
                 </aside>
 
                 {/* ─── Main Content ─── */}
-                <div style={{
+                <div className="dashboard-main" style={{
                     flex: 1, marginLeft: sidebarWidth,
                     transition: 'margin-left 0.25s ease',
                     display: 'flex', flexDirection: 'column',
@@ -196,32 +206,41 @@ export default function DashboardLayout({ children }) {
                         height: 'var(--topbar-height)',
                         borderBottom: '1px solid var(--border-primary)',
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        padding: '0 28px',
+                        padding: '0 28px', paddingLeft: '16px',
                         background: 'rgba(255,255,255,0.9)',
                         backdropFilter: 'blur(12px)',
                         position: 'sticky', top: 0, zIndex: 40,
                     }}>
-                        <div style={{
-                            display: 'flex', alignItems: 'center', gap: 8,
-                            background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)',
-                            padding: '8px 14px',
-                            width: 300,
-                        }}>
-                            <Search size={16} color="var(--text-tertiary)" />
-                            <input
-                                placeholder="Search anything..."
-                                style={{
-                                    background: 'none', border: 'none', outline: 'none',
-                                    color: 'var(--text-primary)', fontSize: '0.75rem', width: '100%',
-                                    fontFamily: 'inherit',
-                                }}
-                            />
-                            <kbd style={{
-                                fontSize: '0.625rem', color: 'var(--text-tertiary)',
-                                background: 'var(--bg-primary)', padding: '2px 6px',
-                                border: '1px solid var(--border-primary)',
-                                fontFamily: 'inherit', fontWeight: 600,
-                            }}>⌘K</kbd>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <button
+                                className="sidebar-toggle-mobile btn-icon btn-ghost"
+                                onClick={() => setSidebarOpen(!sidebarOpen)}
+                                aria-label="Toggle sidebar"
+                            >
+                                <Menu size={20} />
+                            </button>
+                            <div className="dashboard-search" style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)',
+                                padding: '8px 14px',
+                                width: 300,
+                            }}>
+                                <Search size={16} color="var(--text-tertiary)" />
+                                <input
+                                    placeholder="Search anything..."
+                                    style={{
+                                        background: 'none', border: 'none', outline: 'none',
+                                        color: 'var(--text-primary)', fontSize: '0.75rem', width: '100%',
+                                        fontFamily: 'inherit',
+                                    }}
+                                />
+                                <kbd style={{
+                                    fontSize: '0.625rem', color: 'var(--text-tertiary)',
+                                    background: 'var(--bg-primary)', padding: '2px 6px',
+                                    border: '1px solid var(--border-primary)',
+                                    fontFamily: 'inherit', fontWeight: 600,
+                                }}>⌘K</kbd>
+                            </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                             <button className="btn-icon btn-ghost" style={{ position: 'relative' }}>

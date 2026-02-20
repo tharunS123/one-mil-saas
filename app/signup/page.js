@@ -53,12 +53,12 @@ export default function SignupPage() {
     };
 
     return (
-        <div style={{
+        <div className="auth-container" style={{
             minHeight: '100vh', display: 'flex',
             background: 'var(--bg-primary)',
         }}>
             {/* Left panel - branding */}
-            <div style={{
+            <div className="auth-branding" style={{
                 flex: '0 0 45%', background: '#000000', color: '#FFFFFF',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                 padding: '48px',
@@ -74,13 +74,13 @@ export default function SignupPage() {
                         14-day free trial. No credit card required. Start managing your clients and revenue today.
                     </p>
                 </div>
-                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.6875rem' }}>
+                <p className="auth-copyright" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.6875rem' }}>
                     © 2026 Apex. All rights reserved.
                 </p>
             </div>
 
             {/* Right panel - form */}
-            <div style={{
+            <div className="auth-form-panel" style={{
                 flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 padding: '48px',
             }}>

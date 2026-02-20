@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import {
   Users, FileText, ArrowRight, Check,
   Shield, TrendingUp, Star, ChevronRight, Sparkles,
-  Layout, CreditCard, PieChart, Clock, Terminal
+  Layout, CreditCard, PieChart, Clock, Terminal, Menu, X
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -114,6 +114,7 @@ function BrandLogo({ height = 20, color = '#000000' }) {
 
 export default function LandingPage() {
   const [billingCycle, setBillingCycle] = useState('monthly');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div style={{ background: 'var(--bg-primary)', minHeight: '100vh', color: 'var(--text-primary)' }}>
@@ -131,7 +132,7 @@ export default function LandingPage() {
             <BrandLogo height={22} color="#000000" />
           </Link>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
             {NAV_LINKS.map(link => (
               <a key={link.href} href={link.href} style={{
                 fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-secondary)',
@@ -149,8 +150,28 @@ export default function LandingPage() {
               Get Started <ArrowRight size={14} />
             </Link>
           </div>
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </nav>
+
+      {/* ─── Mobile Menu ─── */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu">
+          {NAV_LINKS.map(link => (
+            <a key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+          ))}
+          <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
+          <Link href="/signup" className="btn btn-primary" style={{ marginTop: 8, justifyContent: 'center' }} onClick={() => setMobileMenuOpen(false)}>
+            Get Started <ArrowRight size={14} />
+          </Link>
+        </div>
+      )}
 
       {/* ─── Hero ─── */}
       <section style={{
@@ -224,6 +245,7 @@ export default function LandingPage() {
             animate="visible"
             variants={fadeUp}
             custom={4}
+            className="trust-badges"
             style={{
               display: 'flex', gap: 24, justifyContent: 'center', marginTop: 32,
               fontSize: '0.75rem', color: 'var(--text-tertiary)',
@@ -239,6 +261,7 @@ export default function LandingPage() {
 
         {/* Dashboard Preview */}
         <motion.div
+          className="hero-preview"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -336,7 +359,7 @@ export default function LandingPage() {
           </p>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border-primary)' }}>
+        <div className="landing-features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border-primary)' }}>
           {FEATURES.map((f, i) => (
             <motion.div
               key={f.title}
@@ -373,7 +396,7 @@ export default function LandingPage() {
         padding: '60px 24px', borderTop: '1px solid var(--border-primary)',
         borderBottom: '1px solid var(--border-primary)',
       }}>
-        <div style={{
+        <div className="stats-bar" style={{
           maxWidth: 1000, margin: '0 auto',
           display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: 40,
         }}>
@@ -435,7 +458,7 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--border-secondary)' }}>
+        <div className="landing-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--border-secondary)' }}>
           {PRICING_TIERS.map((tier, i) => (
             <motion.div
               key={tier.name}
@@ -444,6 +467,7 @@ export default function LandingPage() {
               viewport={{ once: true, margin: '-50px' }}
               variants={fadeUp}
               custom={i}
+              className="pricing-card"
               style={{
                 background: tier.popular ? '#F8FFF8' : 'var(--bg-primary)',
                 borderRight: i < 2 ? '1px solid var(--border-secondary)' : 'none',
@@ -510,7 +534,7 @@ export default function LandingPage() {
           </p>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border-primary)' }}>
+        <div className="landing-testimonials-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border-primary)' }}>
           {TESTIMONIALS.map((t, i) => (
             <motion.div
               key={t.name}
@@ -572,7 +596,7 @@ export default function LandingPage() {
       <footer style={{
         borderTop: '1px solid var(--border-primary)', padding: '48px 24px',
       }}>
-        <div style={{
+        <div className="landing-footer-inner" style={{
           maxWidth: 1200, margin: '0 auto',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20,
         }}>
